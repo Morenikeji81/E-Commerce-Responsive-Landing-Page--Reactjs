@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import Header from './components/Header/Header'
+import Home from './Pages/Home/Home'
+import Footer from './components/Footer/Footer'
+import Register from './Pages/Login/Register'
+import Login from './Pages/Login/Login'
+import Account from './Pages/Account/Account'
+import {useSelector} from "react-redux"
 
-function App() {
+
+const App = () => {
+  const isLogIn = useSelector((state) => state.auth.isLogIn)
+  const cartItems = useSelector((state) => state.cart.itemsList)
+  console.log(cartItems)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {isLogIn  && (
+
+      
+      <Router>
+        <Header/>
+        <Switch>
+        <Route exact path='/' component={Home} />
+        <Route exact path='/register' component={Register}/>
+        <Route exact path='/account' component={Account}/>
+        </Switch>
+        <Footer />
+      </Router>
+      )}
+      {!isLogIn && <Login/>}
     </div>
-  );
+  )
 }
 
-export default App;
+
+export default App
